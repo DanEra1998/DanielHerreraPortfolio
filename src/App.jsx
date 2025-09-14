@@ -147,13 +147,6 @@ function Header() {
           </a>
         </nav>
         <a
-          href={`${import.meta.env.BASE_URL}Daniel-Herrera-Resume-2025.pdf`}
-          download="Daniel-Herrera-Resume-2025.pdf"
-          className="inline-flex rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-sm font-semibold hover:bg-white/10"
-        >
-          Resume
-        </a>
-        <a
           href="#contact"
           className="rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500 px-3 py-1.5 text-sm font-semibold text-slate-900 hover:from-sky-300 hover:via-cyan-300 hover:to-blue-400"
         >
@@ -180,7 +173,7 @@ function Hero({ name, role, tagline }) {
   return (
     <section
       id="top"
-      className="relative isolate mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-4 py-20 sm:py-24 md:grid-cols-12"
+      className="relative isolate mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-4 py-8 sm:py-24 md:grid-cols-12"
     >
       <div className="md:col-span-7">
         <Badge>Available for work</Badge>
@@ -430,11 +423,13 @@ function Toggle({ on, setOn, children }) {
   );
 }
 
+// Subtle, low-cost motion constants
+const PHOTO_SPEED = 0.5; // slower
+const PHOTO_BOUNCE = 3; // smaller bounce
+
 function BouncyPhotoHero({ src, alt = "portrait", name = "Daniel Herrera" }) {
-  const [speed, setSpeed] = useState(1);
-  const [bouncePx, setBouncePx] = useState(14);
-  const [shadow, setShadow] = useState(true);
-  const [glow, setGlow] = useState(true);
+  const shadow = true;
+  const glow = true;
   const prefersReduced =
     typeof window !== "undefined" &&
     window.matchMedia &&
@@ -457,77 +452,67 @@ function BouncyPhotoHero({ src, alt = "portrait", name = "Daniel Herrera" }) {
         <motion.img
           src={src}
           alt={alt}
-          initial={false}
-          animate={prefersReduced ? { opacity: 1 } : { y: [0, -bouncePx, 0] }}
-          transition={
-            prefersReduced
-              ? { duration: 0.3 }
-              : {
-                  duration: Math.max(0.9 / speed, 0.15),
-                  times: [0, 0.5, 1],
-                  repeat: Infinity,
-                  repeatType: "mirror",
-                  ease: "easeInOut",
-                }
-          }
-          whileHover={
-            prefersReduced ? undefined : { y: -bouncePx - 8, scale: 1.02 }
-          }
-          className={[
-            "h-64 w-64 rounded-2xl object-cover mt-4",
-            "ring-1 ring-white/10",
-            glow && "outline outline-white/10",
-            shadow && "drop-shadow-[0_20px_35px_rgba(0,0,0,0.45)]",
-          ]
-            .filter(Boolean)
-            .join(" ")}
+          initial={{ y: 0, opacity: 1 }}
+          animate={{ y: [0, -PHOTO_BOUNCE, 0] }} // will run on mount
+          transition={{
+            duration: Math.max(0.9 / PHOTO_SPEED, 0.2),
+            times: [0, 0.5, 1],
+            repeat: Infinity,
+            repeatType: "mirror",
+            ease: "easeInOut",
+          }}
+          className="h-72 w-64 rounded-2xl object-cover mt-4 ring-1 ring-white/10 drop-shadow-[0_20px_35px_rgba(0,0,0,0.45)] transform-gpu will-change-transform"
         />
       </div>
 
-      {/* Name below the photo (optional) */}
+      {/* Name below the photo */}
       <h3 className="mt-4 text-center text-xl font-semibold text-slate-200">
         {name}
       </h3>
 
-      {/* Controls */}
+      {/* NEW: Social + Resume row (replaces sliders) */}
       <div className="mt-4 grid grid-cols-3 gap-3">
-        <Control label="Speed">
-          <input
-            type="range"
-            min={0.5}
-            max={2}
-            step={0.1}
-            value={speed}
-            onChange={(e) => setSpeed(parseFloat(e.target.value))}
-            className="w-full accent-sky-400"
+        {/* LinkedIn */}
+        <a
+          href="https://www.linkedin.com/in/dan-era"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium hover:bg-white/10"
+        >
+          <FaLinkedin
+            className="text-slate-200 group-hover:text-blue-400"
+            size={18}
           />
-        </Control>
-        <Control label="Bounce">
-          <input
-            type="range"
-            min={6}
-            max={28}
-            step={1}
-            value={bouncePx}
-            onChange={(e) => setBouncePx(parseInt(e.target.value))}
-            className="w-full accent-sky-400"
+          <span>LinkedIn</span>
+        </a>
+
+        {/* GitHub */}
+        <a
+          href="https://github.com/DanEra1998"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-medium hover:bg-white/10"
+        >
+          <FaGithub
+            className="text-slate-200 group-hover:text-slate-100"
+            size={18}
           />
-        </Control>
-        <Control label="Options">
-          <div className="flex flex-wrap gap-2">
-            <Toggle on={shadow} setOn={setShadow}>
-              Shadow
-            </Toggle>
-            <Toggle on={glow} setOn={setGlow}>
-              Glow
-            </Toggle>
-          </div>
-        </Control>
+          <span>GitHub</span>
+        </a>
+
+        {/* Resume (download) */}
+        <a
+          href={`${import.meta.env.BASE_URL}Daniel-Herrera-Resume-2025.pdf`}
+          download="Daniel-Herrera-Resume-2025.pdf"
+          className="flex items-center justify-center gap-2 rounded-2xl bg-emerald-500/90 px-4 py-3 text-sm font-semibold text-emerald-950 hover:bg-emerald-400"
+          title="Download Resume (PDF)"
+        >
+          <span>Resume</span>
+        </a>
       </div>
     </div>
   );
 }
-
 function Footer({ links }) {
   return (
     <footer className="relative z-40 border-t border-white/10 bg-black/50 backdrop-blur supports-[backdrop-filter]:bg-black/40">
