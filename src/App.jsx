@@ -1,6 +1,5 @@
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import portrait from "./assets/DanielHerreraSash.png";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 import "./App.css";
 
@@ -30,7 +29,7 @@ const DATA = {
   links: [
     { label: "GitHub", href: "https://github.com/" },
     { label: "LinkedIn", href: "https://www.linkedin.com/in/" },
-    { label: "Resume", href: "#" },
+    { label: "Resume", href: "/Daniel-Herrera-Resume-2025.pdf" },
   ],
   about:
     "Recent CS grad and UCI Learning Assistant. I enjoy React/Tailwind on the front and Python/Node on the back. Lately exploring RAG pipelines and serverless Postgres.",
@@ -147,6 +146,13 @@ function Header() {
             Contact
           </a>
         </nav>
+        <a
+          href={`${import.meta.env.BASE_URL}Daniel-Herrera-Resume-2025.pdf`}
+          download="Daniel-Herrera-Resume-2025.pdf"
+          className="inline-flex rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-sm font-semibold hover:bg-white/10"
+        >
+          Resume
+        </a>
         <a
           href="#contact"
           className="rounded-xl bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500 px-3 py-1.5 text-sm font-semibold text-slate-900 hover:from-sky-300 hover:via-cyan-300 hover:to-blue-400"
@@ -396,114 +402,6 @@ function Row({ label, value }) {
   );
 }
 
-// ===== Animated name from the previous message, adapted to accept prop =====
-function BouncyNameHero({ NAME = "Daniel Herrera" }) {
-  const [speed, setSpeed] = useState(0.6);
-  const [bouncePx, setBouncePx] = useState(14);
-  const [rainbow, setRainbow] = useState(true);
-  const [shadow, setShadow] = useState(true);
-  const [wave, setWave] = useState(true);
-
-  const prefersReduced = useMemo(
-    () =>
-      typeof window !== "undefined" &&
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-    []
-  );
-
-  const letters = useMemo(
-    () => NAME.split("").map((ch, i) => ({ ch, i })),
-    [NAME]
-  );
-  const hueFor = (i) => `hsl(${(i * 22) % 360} 90% 60%)`;
-
-  return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-4">
-      <h2 className="select-none text-center font-extrabold leading-none text-4xl sm:text-5xl md:text-6xl">
-        <span className="inline-flex flex-wrap items-end justify-center">
-          {letters.map(({ ch, i }) => (
-            <motion.span
-              key={i}
-              aria-hidden
-              initial={false}
-              animate={prefersReduced ? {} : { y: [0, -bouncePx, 0] }}
-              transition={
-                prefersReduced
-                  ? { duration: 0 }
-                  : {
-                      duration: Math.max(0.9 / speed, 0.15),
-                      times: [0, 0.5, 1],
-                      repeat: Infinity,
-                      repeatType: "mirror",
-                      delay: wave ? i * 0.05 : (letters.length - i) * 0.05,
-                      ease: "easeInOut",
-                    }
-              }
-              className={[
-                "inline-block will-change-transform",
-                shadow && "drop-shadow-[0_6px_20px_rgba(0,0,0,0.45)]",
-                ch === " " ? "w-3 md:w-5" : "px-0.5 md:px-1",
-              ]
-                .filter(Boolean)
-                .join(" ")}
-              style={{
-                color: rainbow ? hueFor(i) : undefined,
-                WebkitTextStroke: rainbow
-                  ? "2px rgba(255,255,255,0.08)"
-                  : undefined,
-              }}
-              whileHover={
-                prefersReduced ? undefined : { y: -bouncePx - 8, scale: 1.05 }
-              }
-            >
-              {ch === " " ? "\u00A0" : ch}
-            </motion.span>
-          ))}
-        </span>
-      </h2>
-
-      <div className="mt-4 grid grid-cols-3 gap-3">
-        <Control label="Speed">
-          <input
-            type="range"
-            min={0.5}
-            max={2}
-            step={0.1}
-            value={speed}
-            onChange={(e) => setSpeed(parseFloat(e.target.value))}
-            className="w-full accent-emerald-400"
-          />
-        </Control>
-        <Control label="Bounce">
-          <input
-            type="range"
-            min={6}
-            max={28}
-            step={1}
-            value={bouncePx}
-            onChange={(e) => setBouncePx(parseInt(e.target.value))}
-            className="w-full accent-emerald-400"
-          />
-        </Control>
-        <Control label="Options">
-          <div className="flex flex-wrap gap-2">
-            <Toggle on={rainbow} setOn={setRainbow}>
-              Rainbow
-            </Toggle>
-            <Toggle on={shadow} setOn={setShadow}>
-              Shadow
-            </Toggle>
-            <Toggle on={wave} setOn={setWave}>
-              Wave
-            </Toggle>
-          </div>
-        </Control>
-      </div>
-    </div>
-  );
-}
-
 function Control({ label, children }) {
   return (
     <label className="flex flex-col gap-2 rounded-2xl border border-white/10 bg-white/5 p-3 text-left text-sm">
@@ -578,7 +476,7 @@ function BouncyPhotoHero({ src, alt = "portrait", name = "Daniel Herrera" }) {
           className={[
             "h-64 w-64 rounded-2xl object-cover mt-4",
             "ring-1 ring-white/10",
-            glow && "outline outline-1 outline-white/10",
+            glow && "outline outline-white/10",
             shadow && "drop-shadow-[0_20px_35px_rgba(0,0,0,0.45)]",
           ]
             .filter(Boolean)
