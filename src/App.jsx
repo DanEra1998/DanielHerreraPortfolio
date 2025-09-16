@@ -262,7 +262,7 @@ function Hero({ name, role, tagline }) {
   return (
     <section
       id="top"
-      className="relative isolate mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-4 py-8 sm:py-24 md:grid-cols-12"
+      className="relative isolate mx-auto grid max-w-6xl grid-cols-1 items-center gap-8 px-4 py-8 sm:py-20 md:grid-cols-12"
     >
       <div className="md:col-span-7">
         <Badge>Available for work</Badge>
@@ -316,7 +316,7 @@ function GradientOrbs() {
 
 function Section({ id, title, children }) {
   return (
-    <section id={id} className="mx-auto max-w-6xl px-4 py-16">
+    <section id={id} className="mx-auto max-w-6xl px-4 py-11">
       <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">{title}</h2>
       <div className="mt-6">{children}</div>
     </section>
