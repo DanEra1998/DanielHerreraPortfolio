@@ -1,5 +1,30 @@
 import portrait from "./assets/DanielHerreraSash.png";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+// tech icons (Simple Icons via react-icons)
+import {
+  SiPython,
+  SiTypescript,
+  SiJavascript,
+  SiCplusplus,
+  SiPostgresql,
+  SiMongodb,
+  SiReact,
+  SiVuedotjs,
+  SiTailwindcss,
+  SiVite,
+  SiAstro,
+  SiNodedotjs,
+  SiExpress,
+  SiPrisma,
+  SiFastapi,
+  SiDocker,
+  SiGithubactions,
+  SiNetlify,
+  SiVercel,
+  SiOpenai,
+  // SiPinecone,
+  SiGooglecloud,
+} from "react-icons/si";
 
 import "./App.css";
 
@@ -94,6 +119,70 @@ const DATA = {
   },
 };
 // =====================================
+
+// Map skill names -> icon components
+const SKILL_ICONS = {
+  // languages / data
+  Python: SiPython,
+  TypeScript: SiTypescript,
+  JavaScript: SiJavascript,
+  "C++": SiCplusplus,
+  SQL: SiPostgresql,
+  Postgres: SiPostgresql,
+  PostgreSQL: SiPostgresql,
+  MongoDB: SiMongodb,
+
+  // frontend
+  React: SiReact,
+  Vue: SiVuedotjs,
+  Tailwind: SiTailwindcss,
+  Vite: SiVite,
+  Astro: SiAstro,
+
+  // backend
+  Node: SiNodedotjs,
+  Express: SiExpress,
+  Prisma: SiPrisma,
+  FastAPI: SiFastapi,
+
+  // infra / devops
+  // AWS: SiAmazonaws,
+  Docker: SiDocker,
+  "CI/CD": SiGithubactions,
+  Netlify: SiNetlify,
+  Vercel: SiVercel,
+
+  // AI
+  RAG: SiOpenai, // representative
+  "OpenAI APIs": SiOpenai,
+  Gemini: SiGooglecloud, // closest recognizable brand
+  // Pinecone: SiPinecone,
+};
+
+const SKILL_COLORS = {
+  Python: "#3776AB",
+  TypeScript: "#3178C6",
+  JavaScript: "#F7DF1E",
+  "C++": "#00599C",
+  SQL: "#336791",
+  React: "#61DAFB",
+  Vue: "#42B883",
+  Tailwind: "#06B6D4",
+  Vite: "#646CFF",
+  Astro: "#FF5D01",
+  Node: "#339933",
+  Express: "#000000",
+  Prisma: "#2D3748",
+  FastAPI: "#009688",
+  AWS: "#FF9900",
+  Docker: "#2496ED",
+  "CI/CD": "#2088FF",
+  Netlify: "#00C7B7",
+  Vercel: "#000000",
+  RAG: "#412991", // placeholder
+  "OpenAI APIs": "#412991",
+  Gemini: "#4285F4",
+};
 
 export default function App() {
   return (
@@ -281,26 +370,48 @@ function Projects({ projects }) {
   );
 }
 
+function SkillPill({ label }) {
+  const Icon = SKILL_ICONS[label] || null;
+  return (
+    <li
+      className="group inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm
+                 hover:border-white/20 hover:bg-white/10 transition"
+      title={label}
+    >
+      {Icon ? (
+        <Icon size={40} style={{ color: SKILL_COLORS[label] }} />
+      ) : (
+        <span className="inline-block h-2.5 w-2.5 rounded-full bg-white/40" />
+      )}
+      <span className="font-medium">{label}</span>
+    </li>
+  );
+}
+
 function Skills({ skills }) {
+  const groups = [
+    ["Languages", skills.languages],
+    ["Frontend", skills.frontend],
+    ["Backend", skills.backend],
+    ["Infra", skills.infra],
+    ["AI", skills.ai],
+  ];
+
   return (
     <Section id="skills" title="Skills">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {Object.entries(skills).map(([group, list]) => (
+        {groups.map(([groupName, list]) => (
           <div
-            key={group}
+            key={groupName}
             className="rounded-2xl border border-white/10 bg-white/5 p-5"
           >
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-400">
-              {group}
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-zinc-400">
+              {groupName}
             </h3>
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {list.map((s) => (
-                <li
-                  key={s}
-                  className="rounded-full bg-white/10 px-2 py-1 text-sm"
-                >
-                  {s}
-                </li>
+
+            <ul className="flex flex-wrap gap-2">
+              {list.map((label) => (
+                <SkillPill key={label} label={label} />
               ))}
             </ul>
           </div>
