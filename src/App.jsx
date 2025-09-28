@@ -1,4 +1,6 @@
 import portrait from "./assets/DanielHerreraSash.png";
+import caShot from "./assets/CA.png";
+import codingMind from "./assets/CM.png";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 // tech icons (Simple Icons via react-icons)
 import {
@@ -94,9 +96,17 @@ const DATA = {
   },
   experience: [
     {
+      org: "Coding Mind",
+      title: "Programming Tutor",
+      dates: "2025 - Present",
+      img: { src: codingMind, alt: "Coding Mind logo" },
+      bullets: ["meow", "meow", "meow"],
+    },
+    {
       org: "CriticalAsset",
       title: "Lead Software Engineer (contract)",
       dates: "2024–2025",
+      img: { src: caShot, alt: "CriticalAsset Dashboard Preview" },
       bullets: [
         "Reverse‑engineered AWS architecture; Dockerized environments and improved deploys.",
         "Built asset image pipeline (n8n + Gemini) to enrich MEP metadata.",
@@ -110,6 +120,17 @@ const DATA = {
       bullets: [
         "Mentored 25 teams (~130 students) on Agile standups, tickets, and debugging.",
         "Guided project architecture, code reviews, and teamwork best practices.",
+      ],
+    },
+    {
+      org: "GetMentored",
+      title: "Software Developer",
+      dates: "2024–2025",
+      img: { src: caShot, alt: "CriticalAsset Dashboard Preview" },
+      bullets: [
+        "Reverse‑engineered AWS architecture; Dockerized environments and improved deploys.",
+        "Built asset image pipeline (n8n + Gemini) to enrich MEP metadata.",
+        "Wrote Playwright tests raising UI reliability and catching regressions early.",
       ],
     },
   ],
@@ -205,9 +226,9 @@ export default function App() {
       <Section id="about" title="About">
         <p className="text-zinc-300/90 leading-relaxed">{DATA.about}</p>
       </Section>
-      <Projects projects={DATA.projects} />
-      <Skills skills={DATA.skills} />
+      {/* <Projects projects={DATA.projects} /> */}
       <Experience items={DATA.experience} />
+      <Skills skills={DATA.skills} />
       <Contact info={DATA.contact} />
       <Footer links={DATA.links} />
     </main>
@@ -424,31 +445,72 @@ function Skills({ skills }) {
 function Experience({ items }) {
   return (
     <Section id="experience" title="Experience">
-      <ol className="relative border-l border-white/10 pl-6">
+      <ol className="space-y-6">
         {items.map((e, i) => (
           <motion.li
             key={i}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.4, delay: i * 0.05 }}
-            className="mb-8"
+            transition={{ duration: 0.45, delay: i * 0.06 }}
+            className="rounded-3xl border border-white/10 bg-white/[0.05] p-4 sm:p-5"
           >
-            <span className="absolute -left-[9px] mt-1 h-4 w-4 rounded-full bg-emerald-400" />
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-              <div className="flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="font-semibold">
-                  {e.title} · <span className="text-emerald-300">{e.org}</span>
-                </h3>
-                <span className="text-sm text-zinc-400">{e.dates}</span>
+            {/* Banner layout: image left (top on mobile), content right */}
+            <div className="grid gap-4 md:grid-cols-5">
+              {/* Image / logo */}
+              {e.img?.src ? (
+                <div className="md:col-span-2 relative overflow-hidden rounded-2xl ring-1 ring-white/10">
+                  <img
+                    src={e.img.src}
+                    alt={e.img.alt ?? `${e.org} cover`}
+                    className="h-24 w-24 object-cover rounded-lg flex-shrink-0"
+                    loading="lazy"
+                  />
+                  {/* soft gradient for text readability if image is bright */}
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"
+                  />
+                </div>
+              ) : (
+                <div className="md:col-span-2 hidden md:block rounded-2xl border border-white/10 bg-white/5" />
+              )}
+
+              {/* Content */}
+              <div className="md:col-span-3 flex flex-col justify-between">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <h3 className="text-lg font-semibold">
+                    {e.title} ·{" "}
+                    <span className="text-emerald-300">{e.org}</span>
+                  </h3>
+                  <span className="text-sm text-zinc-400">{e.dates}</span>
+                </div>
+
+                {e.short && <p className="mt-2 text-zinc-300/90">{e.short}</p>}
+
+                {e.bullets?.length ? (
+                  <ul className="mt-3 list-disc pl-5 text-zinc-300/90 space-y-1">
+                    {e.bullets.map((b, j) => (
+                      <li key={j}>{b}</li>
+                    ))}
+                  </ul>
+                ) : null}
+
+                {/* optional actions */}
+                {e.links?.length ? (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {e.links.map((l) => (
+                      <a
+                        key={l.label}
+                        href={l.href}
+                        className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-1.5 text-sm font-medium hover:bg-white/10"
+                      >
+                        {l.label} →
+                      </a>
+                    ))}
+                  </div>
+                ) : null}
               </div>
-              <ul className="mt-3 list-disc pl-5 text-zinc-300/90">
-                {e.bullets.map((b, j) => (
-                  <li key={j} className="mb-1">
-                    {b}
-                  </li>
-                ))}
-              </ul>
             </div>
           </motion.li>
         ))}
