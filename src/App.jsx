@@ -1,6 +1,10 @@
 import portrait from "./assets/DanielHerreraSash.png";
 import caShot from "./assets/CA.png";
 import codingMind from "./assets/CM.png";
+import nasaLSpcae from "./assets/L'Space.png";
+import cpAssistant from "./assets/cpAssistant.png";
+import getMentoredShot from "./assets/getMentored.jpg";
+
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 // tech icons (Simple Icons via react-icons)
 import {
@@ -89,48 +93,66 @@ const DATA = {
   ],
   skills: {
     languages: ["Python", "TypeScript", "JavaScript", "C++", "SQL"],
-    frontend: ["React", "Vue", "Tailwind", "Vite", "Astro"],
-    backend: ["Node", "Express", "Prisma", "FastAPI"],
+    frontend: ["React", "Vue", "Tailwind", "Vite"],
+    backend: ["Node", "Express"],
     infra: ["AWS", "Docker", "CI/CD", "Netlify", "Vercel"],
     ai: ["RAG", "Gemini", "Pinecone", "OpenAI APIs"],
   },
   experience: [
     {
       org: "Coding Mind",
-      title: "Programming Tutor",
-      dates: "2025 - Present",
+      title: "Programming Instructor",
+      dates: "Jul 2025 – Present",
       img: { src: codingMind, alt: "Coding Mind logo" },
-      bullets: ["meow", "meow", "meow"],
-    },
-    {
-      org: "CriticalAsset",
-      title: "Lead Software Engineer (contract)",
-      dates: "2024–2025",
-      img: { src: caShot, alt: "CriticalAsset Dashboard Preview" },
       bullets: [
-        "Reverse‑engineered AWS architecture; Dockerized environments and improved deploys.",
-        "Built asset image pipeline (n8n + Gemini) to enrich MEP metadata.",
-        "Wrote Playwright tests raising UI reliability and catching regressions early.",
+        "Teach Python, Java and C++ to K-12 students through hands-on, project-based lessons (apps, games, fundamentals).",
+        "Adapt curriculum to diverse learner levels; mentor students through debugging, code reviews, and presenting their projects.",
       ],
     },
     {
-      org: "UCI – Learning Assistant",
-      title: "Course Mentor (Software Eng Capstone)",
-      dates: "2024",
+      org: "CriticalAsset",
+      title: "Software Engineer (contract)",
+      dates: "Apr 2025 – Aug 2025",
+      img: { src: caShot, alt: "CriticalAsset product UI" },
       bullets: [
-        "Mentored 25 teams (~130 students) on Agile standups, tickets, and debugging.",
-        "Guided project architecture, code reviews, and teamwork best practices.",
+        // kept from your earlier version, but de-duplicated
+        "Mapped/documented legacy AWS infrastructure (EC2, RDS/Postgres, S3, ELB, Route 53) to speed onboarding and deployments.",
+        "Built early agentic workflows in n8n using the OpenAI API for multi-channel social automation prototypes.",
+        "Created a Playwright E2E suite that significantly expanded QA coverage and reduced manual test effort.",
+        "Collaborated with DevOps to diagnose and resolve a production outage with CloudWatch monitoring and logs.",
       ],
     },
     {
       org: "GetMentored",
-      title: "Software Developer",
-      dates: "2024–2025",
-      img: { src: caShot, alt: "CriticalAsset Dashboard Preview" },
+      title: "Software Developer → Team Lead",
+      dates: "Sep 2023 – Apr 2025",
+      // (add a screenshot/logo here when you have it)
+      img: { src: getMentoredShot, alt: "GetMentored UI" },
       bullets: [
-        "Reverse‑engineered AWS architecture; Dockerized environments and improved deploys.",
-        "Built asset image pipeline (n8n + Gemini) to enrich MEP metadata.",
-        "Wrote Playwright tests raising UI reliability and catching regressions early.",
+        "Promoted to team lead; mentored 5 interns through 2-week sprints: standups, planning, reviews, retros.",
+        "Designed and implemented the frontend architecture (Vue + CSS/JS) from Figma to production.",
+        "Co-authored a Dockerfile to standardize dev envs and slash setup time.",
+        "Integrated an SMTP invitation/onboarding flow in Express to improve conversion.",
+      ],
+    },
+    {
+      org: "UC Irvine – Learning Assistant",
+      title: "Capstone Project Assistant / Course Mentor",
+      dates: "Jan 2025 – Jul 2025",
+      img: { src: cpAssistant, alt: "cpAssistant image" },
+      bullets: [
+        "Supported ~25 teams (~130 students) on Agile practice: standups, sprint planning, backlogs, retrospectives.",
+        "Facilitated workshops on Git, Figma, UML (class/use-case), and writing Software Requirements Specifications.",
+      ],
+    },
+    {
+      org: "NASA L’Space (Mission Concept Academy)",
+      title: "System Designer",
+      dates: "Aug 2023 – Jan 2024",
+      img: { src: nasaLSpcae, alt: "NASA L'Space Logo" },
+      bullets: [
+        "Collaborated on a theoretical Command & Data Handling (CDH) system design for a satellite/orbiter mission.",
+        "Focused on data routing, bandwidth optimization, and compute constraints to improve instrument capacity.",
       ],
     },
   ],
@@ -243,12 +265,12 @@ function Header() {
           DH
         </a>
         <nav className="hidden gap-6 text-sm md:flex">
-          <a href="#projects" className="opacity-80 hover:opacity-100">
+          {/* <a href="#projects" className="opacity-80 hover:opacity-100">
             Projects
-          </a>
-          <a href="#skills" className="opacity-80 hover:opacity-100">
+          </a> */}
+          {/* <a href="#skills" className="opacity-80 hover:opacity-100">
             Skills
-          </a>
+          </a> */}
           <a href="#experience" className="opacity-80 hover:opacity-100">
             Experience
           </a>
@@ -459,11 +481,11 @@ function Experience({ items }) {
             <div className="grid gap-4 md:grid-cols-5">
               {/* Image / logo */}
               {e.img?.src ? (
-                <div className="md:col-span-2 relative overflow-hidden rounded-2xl ring-1 ring-white/10">
+                <div className="md:col-span-2 relative overflow-hidden rounded-2xl ring-1 ring-white/10 bg-white flex items-center justify-center">
                   <img
                     src={e.img.src}
                     alt={e.img.alt ?? `${e.org} cover`}
-                    className="h-24 w-24 object-cover rounded-lg flex-shrink-0"
+                    className="h-40 w-full object-cover rounded-lg"
                     loading="lazy"
                   />
                   {/* soft gradient for text readability if image is bright */}
